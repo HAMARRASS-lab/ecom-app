@@ -25,6 +25,9 @@ public class BillRestController {
     public Bill getBill(@PathVariable Long id) {
         Bill bill = billRepository.findById(id).get();
         bill.setCustomer(customerRestClient.findCustomerById(bill.getCustomerId()));
+       bill.getProductItemList().forEach(productItem -> {
+           productItem.setProduct(productRestClient.findProductById(productItem.getProductId()));
+       });
         return bill;
     }
 }
